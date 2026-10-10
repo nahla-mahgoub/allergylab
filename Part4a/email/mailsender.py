@@ -38,9 +38,14 @@ while True:
         print(message)
         print(message['data'])
         if message['data'] != 1:
-            mail = Mail()
-            # Working - Move to ENV & read from Front-End
-            mail.send([to_addr], 'New Order Generated', "New order generated for " + message['data'].decode())
+            try:
+                mail = Mail()
+            except Exception as e:
+                print("Failed to create mail instance:", repr(e))
+            else:
+                mail.send([to_addr], 'New Order Generated',
+                          "New order generated for " + message['data'].decode())
+                print("Email send attempted.")
 
     time.sleep(0.01)
 
